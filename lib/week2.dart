@@ -1,0 +1,44 @@
+// tentukan besar diskon yang didapat pembeli
+double hitungPersenDiskon(double totalBelanja, bool member){
+  // belanja minimal 100rb dan terdaftar member: diskon 15% (10% + bonus 5%)
+  if (totalBelanja >= 100000 && member == true) {
+    return 0.15;
+  }
+  // belanja minimal 100rb tapi bukan member: diskon 10% saja
+  if (totalBelanja >= 100000 && member == false) {
+    return 0.10;
+  }
+  // belanja kurang dari 100rb: tidak ada diskon
+  return 0;
+}
+// hitung nominal potongan dari persen diskon
+double hitungPotongan(double diskon, double totalBelanja) {
+  double potongan = diskon * totalBelanja;
+  
+  // potongan dibatasi maksimal 25.000
+  if (potongan >= 25000){
+    return 25000;
+  }
+  return potongan;
+}
+// hitung total akhir yg harus dibayar
+double hitungTotalBayar(double totalBelanja, bool member){
+  
+  // ambil persen diskon dari fungsi diskon
+  double persen = hitungPersenDiskon(totalBelanja, member);
+  
+  // ambil nominal potongan dari fungsi potongan
+  double potongan = hitungPotongan(persen, totalBelanja);
+
+  // total bayar = belanja awal dikurangi potongan
+  double totalBayar = totalBelanja - potongan;
+
+  return totalBayar;
+}
+void main() {
+  // cetak hasil keempat skenario
+  print(hitungTotalBayar(80000,false));
+  print(hitungTotalBayar(150000,false));
+  print(hitungTotalBayar(150000,true));
+  print(hitungTotalBayar(300000,true));
+}
