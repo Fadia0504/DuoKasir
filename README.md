@@ -1,17 +1,67 @@
-# my_app2
+# Anggota
+1. Fadia Nurcholifah 
+2. Dinda Putri Soleha
 
-A new Flutter project.
+## 1. Business Rule
 
-## Getting Started
+| Kode  | Aturan |
+|-------|--------|
+| BR-01 | Belanja minimal Rp100.000 mendapat diskon 10%. |
+| BR-02 | Member mendapat tambahan diskon 5% (hanya jika BR-01 terpenuhi). |
+| BR-03 | Total potongan maksimal Rp25.000. |
 
-This project is a starting point for a Flutter application.
+## 2. Decomposition
 
-A few resources to get you started if this is your first Flutter project:
+```
+hitungTotalBayar
+  ├── hitungPersenDiskon  → tentukan persen diskon            (BR-01, BR-02)
+  ├── hitungPotongan      → hitung potongan, maksimal 25.000  (BR-03)
+  └── totalBelanja - potongan → total yang harus dibayar
+```
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+## 3. Flowchart
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+```
+                 START
+                   |
+                   v
+      Input totalBelanja, member
+                   |
+                   v
+      ┌──────────────────────────┐  Tidak
+      │ totalBelanja >= 100000?  │─────────> persen = 0 ─────────┐
+      └──────────────────────────┘                               |
+                   | Ya                                          |
+                   v                                             |
+              ┌──────────┐  Tidak                                |
+              │ member? │─────────────> persen = 10 ────────────┤
+              └──────────┘                                       |
+                   | Ya                                          |
+                   v                                             |
+             persen = 15 ────────────────────────────────────────┤
+                                                                 |
+      potongan = persen * totalBelanja         <─────────────────┘
+                   |
+                   v
+      ┌──────────────────────┐  Ya
+      │ potongan >= 25000?   │─────────> potongan = 25000 ───────┐
+      └──────────────────────┘                                   |
+                   | Tidak                                       |
+                   v                                             |
+      totalBayar = totalBelanja - potongan  <────────────────────┘
+                   |
+                   v
+           Tampilkan totalBayar
+                   |
+                   v
+                  END
+```
+
+## 4. Skenario Uji
+
+| No | Total Belanja | Member | Expected Total Bayar |
+|----|---------------|--------|----------------------|
+| 1  | Rp80.000      | Tidak  | Rp80.000 |
+| 2  | Rp150.000     | Tidak  | Rp135.000 |
+| 3  | Rp150.000     | Ya     | Rp127.500 |
+| 4  | Rp300.000     | Ya     | Rp275.000 (potongan dibatasi Rp25.000) |
