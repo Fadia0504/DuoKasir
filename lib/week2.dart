@@ -11,7 +11,7 @@ double hitungPersenDiskon(double totalBelanja, bool member){
   // belanja kurang dari 100rb ga dapat diskon
   return 0;
 }
-// hitung nominal potongan dari persen diskon
+
 double hitungPotongan(double diskon, double totalBelanja) {
   double potongan = diskon * totalBelanja;
   
@@ -21,16 +21,11 @@ double hitungPotongan(double diskon, double totalBelanja) {
   }
   return potongan;
 }
-// hitung total akhir yg harus dibayar
+
 double hitungTotalBayar(double totalBelanja, bool member){
   
-  // ambil persen diskon dari fungsi diskon
   double persen = hitungPersenDiskon(totalBelanja, member);
-  
-  // ambil nominal potongan dari fungsi potongan
   double potongan = hitungPotongan(persen, totalBelanja);
-
-  // total bayar = belanja awal dikurangi potongan
   double totalBayar = totalBelanja - potongan;
 
   return totalBayar;
